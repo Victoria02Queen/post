@@ -1,6 +1,6 @@
 package com.example.post.dao;
 
-import com.example.post.dto.Package;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -37,13 +37,12 @@ public class PackageDao {
         jdbcTemplate.update(sql, name, phone, address);
     }
 
-    public void addPackage(String name, String phone, String trackNumber, String senderName, String recipientName){
+    public void addPackage(String name, String phone, String trackNumber, String senderPhone, String recipientPhone){
         JdbcTemplate jdbcTemplate = new JdbcTemplate(null);
 
-        String sql = "INSERT INTO Package (name, phone, trackNumber, id_sender, id_recipient) VALUES (?, ?, ?, (SELECT id FROM Customer WHERE fullName = ?), (SELECT id FROM Customer WHERE fullName = ?))";
+        String sql = "INSERT INTO Package (name, phone, trackNumber, id_sender, id_recipient) VALUES (?, ?, ?, (SELECT id FROM Customer WHERE phone = ?), (SELECT id FROM Customer WHERE phone = ?))";
         log.debug("addPackage = {} ", sql);
 
-        jdbcTemplate.update(sql, name, phone, trackNumber, senderName, recipientName);
+        jdbcTemplate.update(sql, name, phone, trackNumber, senderPhone, recipientPhone);
     }
-
 }
