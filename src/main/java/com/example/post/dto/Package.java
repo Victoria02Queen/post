@@ -7,7 +7,7 @@ public class Package {
     String name;
     String phone;
     String trackNumber;
-    User recipient;
-    User sender;
+    Customer recipient;
+    Customer sender;
     String location;
 }
