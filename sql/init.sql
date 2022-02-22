@@ -5,7 +5,7 @@ CREATE TABLE PostOffice(
     name VARCHAR(60),
     address VARCHAR(80)
 );
-
+DROP TABLE Employee;
 CREATE TABLE Employee(
     id SERIAL PRIMARY KEY,
     fullName VARCHAR(70),
