@@ -19,7 +19,7 @@ public class PackageDao {
     }
 
     public void addEmployee(String name, String phone, String postName){
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(null);//положить dataSource в аргумент
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);//положить dataSource в аргумент
 
         String sql = "INSERT INTO Employee (fullName, phone, id_post) VALUES (?, ?, (SELECT id FROM PostOffice WHERE name = ?))";
         log.debug("addEmployee = {} ", sql);
@@ -28,7 +28,7 @@ public class PackageDao {
     }
 
     public void addPostOffice(String name, String address){
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(null);
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
         String sql = "INSERT INTO PostOffice (name, address) VALUES (?, ?)";
         log.debug("addPostOffice = {} ", sql);
@@ -46,7 +46,7 @@ public class PackageDao {
     }
 
     public void addPackage(String name, String phone, String trackNumber, String senderPhone, String recipientPhone){
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(null);
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
         String sql = "INSERT INTO Package (name, phone, trackNumber, id_sender, id_recipient) VALUES (?, ?, ?, (SELECT id FROM Customer WHERE phone = ?), (SELECT id FROM Customer WHERE phone = ?))";
         log.debug("addPackage = {} ", sql);
