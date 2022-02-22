@@ -5,12 +5,12 @@ CREATE TABLE PostOffice(
     name VARCHAR(60),
     address VARCHAR(80)
 );
-
+DROP TABLE Employee;
 CREATE TABLE Employee(
     id SERIAL PRIMARY KEY,
     fullName VARCHAR(70),
-    phone INT,
-    id_post INT,
+    phone VARCHAR(20),
+    id_post INT NOT NULL ,
     FOREIGN KEY (id_post) REFERENCES PostOffice(id)
 );
 
@@ -24,7 +24,6 @@ CREATE TABLE Customer (
 CREATE TABLE Package (
     id SERIAL PRIMARY KEY,
     name VARCHAR(60),
-    phone VARCHAR (70),
     trackNumber VARCHAR(60) UNIQUE,
     id_recipient INTEGER REFERENCES Customer(id),
     id_sender INTEGER REFERENCES Customer(id)
