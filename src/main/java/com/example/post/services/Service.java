@@ -12,6 +12,6 @@ public class Service {
     }
 
     private void doSmth(){
-        //packageDao.addPackage();
+        packageDao.addCustomer("sad", "asd", "sad");
     }
 }
