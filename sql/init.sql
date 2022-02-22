@@ -1,6 +1,5 @@
 CREATE DATABASE post;
 
-
 CREATE TABLE PostOffice(
     id SERIAL PRIMARY KEY,
     name VARCHAR(60),
