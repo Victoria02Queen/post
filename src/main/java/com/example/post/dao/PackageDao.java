@@ -53,4 +53,22 @@ public class PackageDao {
 
         jdbcTemplate.update(sql, name, phone, trackNumber, senderPhone, recipientPhone);
     }
+
+    public void changePostOffice(String name, String address, String id){
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+        String sql = "UPDATE PostOffice SET name = ?,  address = ? WHERE id = ?";
+        log.debug("addEmployee = {} ", sql);
+
+        jdbcTemplate.update(sql, name, address, id);
+    }
+
+    public void changeEmployee(String name, String phone, String postName, String id){
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+        String sql = "UPDATE Employee SET fullName = ?,  phone = ?, postName = (SELECT id FROM PostOffice WHERE name = ?) WHERE id = ?";
+        log.debug("addEmployee = {} ", sql);
+
+        jdbcTemplate.update(sql, name, phone, postName, id);
+    }
 }
