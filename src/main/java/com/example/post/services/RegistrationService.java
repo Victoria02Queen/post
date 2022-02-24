@@ -16,6 +16,10 @@ public class RegistrationService {
     }
 
     public void register(Customer customer){
-        log.debug("user = {} existing = {}" , customer.getPhone(), packageDao.isUserExists(customer.getPhone()));
+        log.debug("user = {} existing = {}" , customer.getPhone(), isCustomerExists(customer));
+    }
+
+    private boolean isCustomerExists(Customer customer){
+        return packageDao.findCustomerByName(customer.getPhone()) != null;
     }
 }

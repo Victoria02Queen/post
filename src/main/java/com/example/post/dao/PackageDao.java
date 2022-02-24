@@ -20,7 +20,7 @@ public class PackageDao {
         this.dataSource = dataSource;
     }
 
-    public boolean isUserExists(String phone){
+    public Customer findCustomerByName(String phone){
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
         String sql = "SELECT * FROM Customer WHERE phone = ?";
@@ -37,7 +37,7 @@ public class PackageDao {
                         )
                 );
 
-        return !customers.isEmpty();
+        return customers.get(0);
     }
 
     public void addEmployee(String name, String phone, String postName){
