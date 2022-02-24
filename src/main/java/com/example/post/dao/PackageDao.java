@@ -1,9 +1,7 @@
 package com.example.post.dao;
 
 import com.example.post.dto.Customer;
-import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +18,7 @@ public class PackageDao {
         this.dataSource = dataSource;
     }
 
-    public Customer findCustomerByName(String phone){
+    public Customer findCustomerByPhone(String phone){
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
         String sql = "SELECT * FROM Customer WHERE phone = ?";
@@ -34,10 +32,15 @@ public class PackageDao {
                                 rs.getString("phone"),
                                 rs.getString("address"),
                                 rs.getString("password")
-                        )
+                        ),
+                phone
                 );
-
-        return customers.get(0);
+        if (customers.size() > 0){
+            return customers.get(0);
+        }
+        else {
+            return null;
+        }
     }
 
     public void addEmployee(String name, String phone, String postName){
@@ -58,13 +61,13 @@ public class PackageDao {
         jdbcTemplate.update(sql, name, address);
     }
 
-    public void addCustomer(String name, String phone, String address){
+    public void addCustomer(String name, String phone, String address, String password){
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-        String sql = "INSERT INTO Customer (fullName, phone, address) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Customer (fullName, phone, address, password) VALUES (?, ?, ?, ?)";
         log.debug("addCustomer = {} ", sql);
 
-        jdbcTemplate.update(sql, name, phone, address);
+        jdbcTemplate.update(sql, name, phone, address, password);
     }
 
     public void addPackage(String name, String phone, String trackNumber, String senderPhone, String recipientPhone){
