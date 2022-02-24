@@ -36,13 +36,13 @@ public class PackageDao {
         jdbcTemplate.update(sql, name, address);
     }
 
-    public void addCustomer(String name, String phone, String address){
+    public void addCustomer(String name, String phone, String address, String password){
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-        String sql = "INSERT INTO Customer (fullName, phone, address) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Customer (fullName, phone, address, password) VALUES (?, ?, ?, ?)";
         log.debug("addCustomer = {} ", sql);
 
-        jdbcTemplate.update(sql, name, phone, address);
+        jdbcTemplate.update(sql, name, phone, address, password);
     }
 
     public void addPackage(String name, String phone, String trackNumber, String senderPhone, String recipientPhone){
