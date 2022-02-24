@@ -1,5 +1,6 @@
 package com.example.post.dao;
 
+import com.example.post.dto.Customer;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -7,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 
 @Slf4j
@@ -18,8 +20,28 @@ public class PackageDao {
         this.dataSource = dataSource;
     }
 
+    public boolean isUserExists(String phone){
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+        String sql = "SELECT * FROM Customer WHERE phone = ?";
+
+        List<Customer> customers = jdbcTemplate.query(
+                sql,
+                (rs, rowNum) ->
+                        new Customer(
+                                rs.getInt("id"),
+                                rs.getString("fullName"),
+                                rs.getString("phone"),
+                                rs.getString("address"),
+                                rs.getString("password")
+                        )
+                );
+
+        return !customers.isEmpty();
+    }
+
     public void addEmployee(String name, String phone, String postName){
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);//положить dataSource в аргумент
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
         String sql = "INSERT INTO Employee (fullName, phone, id_post) VALUES (?, ?, (SELECT id FROM PostOffice WHERE name = ?))";
         log.debug("addEmployee = {} ", sql);

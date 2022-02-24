@@ -8,4 +8,5 @@ public class Customer {
     String fullName;
     String phone;
     String address;
+    String password;
 }
