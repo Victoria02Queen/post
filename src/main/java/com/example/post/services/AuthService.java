@@ -4,14 +4,17 @@ import com.example.post.dao.PackageDao;
 import com.example.post.dto.Customer;
 import com.example.post.services.exceptions.CustomerWasRegisteredException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpSession;
 
 @Slf4j
 @Service
-public class RegistrationService {
+public class AuthService {
     PackageDao packageDao;
 
-    public RegistrationService(PackageDao packageDao) throws CustomerWasRegisteredException {
+    public AuthService(PackageDao packageDao) throws CustomerWasRegisteredException {
         this.packageDao = packageDao;
     }
 
@@ -26,6 +29,22 @@ public class RegistrationService {
                 customer.getAddress(),
                 customer.getPassword()
         );
+    }
+
+    @Nullable
+    public Customer auth(String phone, String password){
+        Customer customer = packageDao.findCustomerByPhone(phone);
+
+        if (customer == null) return null;
+
+        return customer.getPhone().equals(phone) ? customer : null;
+    }
+
+    @Nullable
+    public Customer getLoggedCustomer(HttpSession httpSession){
+        Customer customer = (Customer) httpSession.getAttribute("customer");
+
+        return customer;
     }
 
     private boolean isCustomerExists(Customer customer){

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Table</title>
@@ -11,19 +11,19 @@
   <h2>Авторизация</h2>
 </div>
 
-<form method="post" >
+<form th:method="post" th:action="@{/customer}"  >
   <div class="input-group">
-    <label>Имя</label>
-    <input type="text" name="username" >
+    <label>Телефон</label>
+    <input type="text" name="phone" >
   </div>
   <div class="input-group">
     <label>Пароль</label>
-    <input type="password" name="password_1">
+    <input type="password" name="password">
   </div>
-  <a id="register" class="button purple" href="menu.html">
-    <i class="fa fa-user-plus"></i>
-    <span>Авторизоваться</span>
-  </a>
+    <button type="submit" class="button blue">
+      <i class="fa fa-user-plus"></i>
+      <span>Авторизоваться</span>
+    </button>
 </form>
 </body>
 </html>

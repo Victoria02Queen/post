@@ -6,5 +6,5 @@ import lombok.Value;
 public class PostOffice {
     long id;
     String name;
-    String adderess;
+    String address;
 }
