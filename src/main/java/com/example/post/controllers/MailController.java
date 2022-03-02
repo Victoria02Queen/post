@@ -56,8 +56,10 @@ public class MailController {
 
         List<Package> packageList = packageService.getPackagesForCustomer(customer);
 
+
+
         model.addAttribute("customer", customer);
-        model.addAttribute("packages", packageList.toString());
+        model.addAttribute("packages", packageList);
 
         return "customerPage";
     }
@@ -66,6 +68,11 @@ public class MailController {
     public String register(@ModelAttribute Customer customer) throws CustomerWasRegisteredException {
         authService.register(customer);
         return "main";
+    }
+
+    @GetMapping("/employee")
+    public String getEmployeePage(Model model){
+        return "menu";
     }
 
 

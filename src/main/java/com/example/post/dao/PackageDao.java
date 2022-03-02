@@ -108,7 +108,7 @@ public class PackageDao {
                 "inner join Customer c on Package.id_sender = c.id " +
                 "inner join Customer c2 on Package.id_recipient = c2.id " +
                 "inner join location on Package.trackNumber = Location.trackNumber " +
-                "where c.phone = ?;";
+                 "where c2.phone = ?;";
 
         List<Package> packages = jdbcTemplate.query(
                 sql,
