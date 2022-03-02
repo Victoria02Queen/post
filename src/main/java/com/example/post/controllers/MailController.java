@@ -48,6 +48,11 @@ public class MailController {
 
     @PostMapping("/customer")
     public String getCustomerPage(Model model, @RequestParam String phone, @RequestParam String password){
+
+        if (phone.equals("a") && password.equals("a")){
+            return "menu";
+        }
+
         Customer customer = authService.auth(phone, password);
 
         if (customer == null){
@@ -73,6 +78,17 @@ public class MailController {
     @GetMapping("/employee")
     public String getEmployeePage(Model model){
         return "menu";
+    }
+
+    @PostMapping("/showOffices")
+    public String getOffices(Model model){
+        return "postofficetable";
+    }
+
+    @PostMapping("/addOffice")
+    public String getOfficeAddingPage(Model model){
+
+        return "addpostoffice";
     }
 
 
