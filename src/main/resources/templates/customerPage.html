@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/customer.css">
+</head>
+<body>
+
+
+
+<h3>Таблица получателей посылок</h3>
+<div>
+    <button class="button">добавить</button>
+    <button class="button ck">удалить</button>
+</div>
+<table border="1" bordercolor="grey" width="600">
+    <tr>
+        <th>ФИ0 отправителя</th>
+        <th>Трек номер</th>
+        <th>Где находится</th>
+    </tr>
+
+
+
+    <tr th:each="package : ${packages}">
+        <td>
+            [[${package.getSender().getFullName()}]]
+        </td>
+        <td>
+            [[${package.getTrackNumber()}]]
+        </td>
+        <td>
+            [[${package.getLocation()}]]
+        </td>
+    </tr>
+
+
+</table>
+
+</body>
+</html>

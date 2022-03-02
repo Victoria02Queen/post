@@ -1,12 +1,15 @@
 package com.example.post.dao;
 
-import com.zaxxer.hikari.HikariDataSource;
+import com.example.post.dto.Customer;
+import com.example.post.dto.Employee;
+import com.example.post.dto.Package;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.List;
+import java.util.Locale;
 
 
 @Slf4j
@@ -18,8 +21,33 @@ public class PackageDao {
         this.dataSource = dataSource;
     }
 
+    public Customer findCustomerByPhone(String phone){
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+        String sql = "SELECT * FROM Customer WHERE phone = ?";
+
+        List<Customer> customers = jdbcTemplate.query(
+                sql,
+                (rs, rowNum) ->
+                        new Customer(
+                                rs.getLong("id"),
+                                rs.getString("fullName"),
+                                rs.getString("phone"),
+                                rs.getString("address"),
+                                rs.getString("password")
+                        ),
+                phone
+                );
+        if (customers.size() > 0){
+            return customers.get(0);
+        }
+        else {
+            return null;
+        }
+    }
+
     public void addEmployee(String name, String phone, String postName){
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);//положить dataSource в аргумент
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
         String sql = "INSERT INTO Employee (fullName, phone, id_post) VALUES (?, ?, (SELECT id FROM PostOffice WHERE name = ?))";
         log.debug("addEmployee = {} ", sql);
@@ -70,5 +98,36 @@ public class PackageDao {
         log.debug("addEmployee = {} ", sql);
 
         jdbcTemplate.update(sql, name, phone, postName, id);
+    }
+
+    public List<Package> getPackagesByPhone(String phone){
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+        String sql = "SELECT name, Package.tracknumber, location, Employee.fullName as employeeName, c.fullName as senderName, c2.fullName as recipientName " +
+                "from package inner join employee on package.id_employee = Employee.id " +
+                "inner join Customer c on Package.id_sender = c.id " +
+                "inner join Customer c2 on Package.id_recipient = c2.id " +
+                "inner join location on Package.trackNumber = Location.trackNumber " +
+                 "where c2.phone = ?;";
+
+        List<Package> packages = jdbcTemplate.query(
+                sql,
+                (rs, rowNum) ->
+                       new Package(
+                               rs.getString("name"),
+                               rs.getString("trackNumber"),
+                               new Customer(null, rs.getString("recipientName"), null, null, null),
+                               new Employee(null, rs.getString("employeeName"), null, null),
+                               new Customer(null, rs.getString("senderName"), null, null, null),
+                               rs.getString("location")
+                       ),
+                phone
+        );
+
+        return packages;
+    }
+
+    public void changeLocationForTrackNumber(String track){
+
     }
 }

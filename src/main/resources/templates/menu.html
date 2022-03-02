@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -12,7 +12,11 @@
     <a href="#">Клиенты</a>
     <a href="#">Посылки</a>
     <a href="#">Сотрудники</a>
-    <a href="#">Офисы</a>
+
+    <form th:action="@{/showOffices}" th:method="post">
+        <input type="submit" value="Офисы">
+    </form>
+
 </div>
 </body>
 </html>
