@@ -219,4 +219,5 @@ public class MailController {
         model.addAttribute("locations", packageDao.getAllLocations());
         return "locationtable";
     }
+
 }
