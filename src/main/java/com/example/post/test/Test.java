@@ -11,6 +11,6 @@ public class Test {
 
     public Test(PackageDao packageDao) {
         this.packageDao = packageDao;
-        log.error(packageDao.getPackagesByPhone("1").toString());
+        log.error(packageDao.getAllPackages().toString());
     }
 }

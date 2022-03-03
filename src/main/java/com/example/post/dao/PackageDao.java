@@ -2,6 +2,7 @@ package com.example.post.dao;
 
 import com.example.post.dto.Customer;
 import com.example.post.dto.Employee;
+import com.example.post.dto.Location;
 import com.example.post.dto.Package;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -46,6 +47,63 @@ public class PackageDao {
         }
     }
 
+    public List<Location> getAllLocations(){
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+        String sql = "SELECT * FROM location;";
+
+        List<Location> locations = jdbcTemplate.query(
+                sql,
+                (rs, rowNum) ->
+                        new Location(
+                                rs.getLong("id"),
+                                rs.getString("tracknumber"),
+                                rs.getString("location")
+                        )
+        );
+
+        return locations;
+    }
+
+    public void addLocation(String trackNumber, String location){
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+        String sql = "INSERT INTO Location (trackNumber, location) VALUES (?, ?)";
+        log.debug("addEmployee = {} ", sql);
+
+        jdbcTemplate.update(sql, trackNumber, location);
+    }
+
+    public List<Customer> getAllCustomers(){
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+        String sql = "SELECT * FROM Customer;";
+
+        List<Customer> customers = jdbcTemplate.query(
+                sql,
+                (rs, rowNum) ->
+                        new Customer(
+                                rs.getLong("id"),
+                                rs.getString("fullname"),
+                                rs.getString("phone"),
+                                rs.getString("address"),
+                                ""
+
+                        )
+        );
+
+        return customers;
+    }
+
+    public void deleteLocation(int id){
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+        String sql = "DELETE FROM location WHERE id = ?";
+
+        jdbcTemplate.update(sql, id);
+    }
+
+
     public void addEmployee(String name, String phone, String postName){
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
@@ -73,6 +131,25 @@ public class PackageDao {
         jdbcTemplate.update(sql, id);
     }
 
+    public void removePackage(int id){
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+        String sql = "DELETE FROM package WHERE id = ?";
+        log.debug("addCustomer = {} ", sql);
+
+        jdbcTemplate.update(sql, id);
+    }
+
+    public void removeCustomer(int id){
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+        String sql = "DELETE FROM customer WHERE id = ?";
+        log.debug("addCustomer = {} ", sql);
+
+        jdbcTemplate.update(sql, id);
+    }
+
+
     public void addCustomer(String name, String phone, String address, String password){
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
@@ -82,13 +159,13 @@ public class PackageDao {
         jdbcTemplate.update(sql, name, phone, address, password);
     }
 
-    public void addPackage(String name, String phone, String trackNumber, String senderPhone, String recipientPhone){
+    public void addPackage(String name, String trackNumber, String senderPhone, String recipientPhone){
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-        String sql = "INSERT INTO Package (name, phone, trackNumber, id_sender, id_recipient) VALUES (?, ?, ?, (SELECT id FROM Customer WHERE phone = ?), (SELECT id FROM Customer WHERE phone = ?))";
+        String sql = "INSERT INTO Package (name, trackNumber, id_sender, id_recipient) VALUES (?, ?, (SELECT id FROM Customer WHERE phone = ?), (SELECT id FROM Customer WHERE phone = ?))";
         log.debug("addPackage = {} ", sql);
 
-        jdbcTemplate.update(sql, name, phone, trackNumber, senderPhone, recipientPhone);
+        jdbcTemplate.update(sql, name, trackNumber, senderPhone, recipientPhone);
     }
 
     public void changePostOffice(String name, String address, int id){
@@ -107,6 +184,31 @@ public class PackageDao {
         log.debug("addEmployee = {} ", sql);
 
         jdbcTemplate.update(sql, name, phone, postName, id);
+    }
+
+    public List<Package> getAllPackages(){
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+        String sql = "SELECT name, Package.tracknumber, location, Employee.fullName as employeeName, c.fullName as senderName, c2.fullName as recipientName " +
+                "from package inner join employee on package.id_employee = Employee.id " +
+                "inner join Customer c on Package.id_sender = c.id " +
+                "inner join Customer c2 on Package.id_recipient = c2.id " +
+                "inner join location on Package.trackNumber = Location.trackNumber;";
+
+        List<Package> packages = jdbcTemplate.query(
+                sql,
+                (rs, rowNum) ->
+                        new Package(
+                                rs.getString("name"),
+                                rs.getString("trackNumber"),
+                                new Customer(null, rs.getString("recipientName"), null, null, null),
+                                new Employee(null, rs.getString("employeeName"), null, null),
+                                new Customer(null, rs.getString("senderName"), null, null, null),
+                                rs.getString("location")
+                        )
+        );
+
+        return packages;
     }
 
     public List<Package> getPackagesByPhone(String phone){

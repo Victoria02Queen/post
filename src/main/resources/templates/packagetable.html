@@ -6,36 +6,44 @@
     <link rel="stylesheet" href="../css/package.css">
 </head>
 <body>
+
 <h3>Таблица посылок</h3>
-<div>
-    <button class="button">добавить</button>
-    <button class="button cm">удалить</button>
-</div>
+<form method="get" th:action="@{addPackage}">
+    <button type="submit" class="button">добавить</button>
+</form>
+
+<form method="get" th:action="@{deletePackage}">
+    <button type="submit" class="button cl">удалить</button>
+</form>
+
 <table border="1" bordercolor="grey" width="600">
     <tr>
         <th>Название посылки</th>
         <th>Трек-номер</th>
-        <th>Место получения</th>
-        <th>Имя сотрудника</th>
         <th>Имя отправителя</th>
         <th>Имя получателя</th>
+        <th>Местоположение</th>
     </tr>
-    <tr>
-        <td>Бандероль</td>
-        <td>456-876</td>
-        <td>Двинская 15</td>
-        <td>Дивеева</td>
-        <td>Сафонов</td>
-        <td>Смирнова Наталья Леонидовна</td>
+
+    <tr th:each="package : ${packages}">
+        <td>
+            [[${package.getName()}]]
+        </td>
+
+        <td>
+            [[${package.getTrackNumber()}]]
+        </td>
+        <td>
+             [[${package.getSender().getFullName()}]]
+        </td>
+        <td>
+            [[${package.getRecipient().getFullName()}]]
+        </td>
+        <td>
+            [[${package.getLocation()}]]
+        </td>
     </tr>
-    <tr>
-        <td>--</td>
-        <td>--</td>
-        <td>--</td>
-        <td>--</td>
-        <td>--</td>
-        <td>--</td>
-    </tr>
+
 </table>
 </body>
 </html>

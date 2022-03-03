@@ -3,36 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="../css/location.css">
+    <link rel="stylesheet" href="customertab.css">
+
+
 </head>
 <body>
 <h3>Таблица местоположений</h3>
-<form method="get" th:action="@{addLocation}">
+
+<form method="get" th:action="@{addCustomer}">
     <button type="submit" class="button">добавить</button>
 </form>
 
-<form method="get" th:action="@{deleteLocation}">
+<form method="get" th:action="@{deleteCustomer}">
     <button type="submit" class="button cl">удалить</button>
 </form>
+
 
 <table border="1" bordercolor="grey" width="600">
     <tr>
         <th>№</th>
-        <th>Трек-номер</th>
-        <th>Местоположение</th>
+        <th>ФИО</th>
+        <th>Телефон</th>
+        <th>Адрес</th>
     </tr>
 
-    <tr th:each="location : ${locations}">
+    <tr th:each="customer : ${customers}">
         <td>
-            [[${location.getId()}]]
+            [[${customer.getId()}]]
         </td>
         <td>
-            [[${location.getTrackNumber()}]]
+            [[${customer.getFullName()}]]
         </td>
         <td>
-            [[${location.getLocation()}]]
-        </td>
+            [[${customer.getPhone()}]]
+        </td>        <td>
+        [[${customer.getAddress()}]]
+    </td>
+
+
     </tr>
+
+
 </table>
 </body>
 </html>

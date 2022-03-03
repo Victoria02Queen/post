@@ -9,12 +9,23 @@
 <body>
 <div class="vertical-menu">
     <a href="#" class="active">Меню таблиц</a>
-    <a href="#">Клиенты</a>
-    <a href="#">Посылки</a>
-    <a href="#">Сотрудники</a>
+
+
+    <form th:action="@{/showPackage}" th:method="post">
+        <input type="submit" value="Посылки">
+    </form>
+
+    <form th:action="@{/showCustomer}" th:method="post">
+        <input type="submit" value="Получатели">
+    </form>
+
 
     <form th:action="@{/showOffices}" th:method="post">
         <input type="submit" value="Офисы">
+    </form>
+
+    <form th:action="@{/showLocation}" th:method="post">
+        <input type="submit" value="Местоположение">
     </form>
 
 </div>

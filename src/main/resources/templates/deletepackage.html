@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="deletepackage.css">
+
+</head>
+<body>
+<div class="header">
+    <h2>Посылки</h2>
+</div>
+<form method="post" th:action="@{deletePackage}" >
+    <div class="input-group">
+        <label>№</label>
+        <input type="text" name="id" required>
+    </div>
+    <div class="input-group">
+        <button type="submit" class="btn" name="del_pack">Удалить</button>
+    </div>
+</form>
+</body>
+</html>

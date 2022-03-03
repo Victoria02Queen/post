@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="addpackage.css">
+</head>
+<body>
+<div class="header">
+    <h2>Посылки</h2>
+</div>
+<form method="post" th:action="@{/addPackage}" >
+    <div class="input-group">
+        <label>Название посылки</label>
+        <input type="text" name="packageName" required>
+    </div>
+    <div class="input-group">
+        <label>Трек-номер</label>
+        <input type="text" name="trackNumber" required>
+    </div>
+
+    <div class="input-group">
+        <label>Номер отправителя</label>
+        <input type="text" name="senderPhone" required>
+    </div>
+    <div class="input-group">
+        <label>Номер получателя</label>
+        <input type="text" name="recipientPhone" required>
+    </div>
+    <div class="input-group">
+        <button type="submit" class="btn" name="add_pack">Добавить</button>
+    </div>
+</form>
+</body>
+</html>
