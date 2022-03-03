@@ -125,7 +125,7 @@ public class MailController {
         return "customertable";
     }
 
-    @PostMapping("/showPackage")
+    @GetMapping("/showPackage") // было @PostMapping("/showPackage")
     public String getPackage(Model model){
         model.addAttribute("packages", packageDao.getAllPackages());
         return "packagetable";
@@ -146,7 +146,7 @@ public class MailController {
 
         packageDao.addPackage(packageName, trackNumber, senderPhone, recipientPhone);
 
-        return "main";
+        return "redirect:/showPackage";
 
     }
 
