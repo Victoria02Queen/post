@@ -1,8 +1,9 @@
 package com.example.post.dto;
 
+import lombok.Data;
 import lombok.Value;
 
-@Value
+@Data
 public class PostOffice {
     long id;
     String name;

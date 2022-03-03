@@ -1,7 +1,9 @@
 package com.example.post.controllers;
 
+import com.example.post.dao.PackageDao;
 import com.example.post.dto.Customer;
 import com.example.post.dto.Package;
+import com.example.post.dto.PostOffice;
 import com.example.post.services.AuthService;
 import com.example.post.services.PackageService;
 import com.example.post.services.exceptions.CustomerWasRegisteredException;
@@ -19,10 +21,13 @@ import java.util.List;
 public class MailController {
     AuthService authService;
     PackageService packageService;
+    PackageDao packageDao;
 
-    public MailController(AuthService authService, PackageService packageService) {
+    public MailController(PackageDao packageDao, AuthService authService, PackageService packageService) {
         this.packageService = packageService;
         this.authService = authService;
+        this.packageDao = packageDao;
+
     }
 
     @GetMapping("/")
@@ -85,12 +90,49 @@ public class MailController {
         return "postofficetable";
     }
 
-    @PostMapping("/addOffice")
+    @GetMapping("/addOffice")
     public String getOfficeAddingPage(Model model){
+        PostOffice postOffice = new PostOffice();
+        model.addAttribute("postOffice", postOffice);
 
         return "addpostoffice";
     }
 
+    @PostMapping("/addPostOffice")
+    public String addPostOffice(@ModelAttribute PostOffice postOffice){
+        packageDao.addPostOffice(postOffice.getName(), postOffice.getAddress());
+
+        return "main";
+    }
+
+    @GetMapping("deleteOffice")
+    public String deletePostOfficeForm(Model model){
+
+        return "deletepostoffice";
+    }
+
+    @PostMapping("deletePostOffice")
+    public String deletePostOffice(Model model, @RequestParam int id){
+        packageDao.removePostOffice(id);
+
+        return "main";
+    }
+
+    @PostMapping("/showEmployee")
+    public String getEmployee(Model model){
+        return "employeetable";
+    }
+
+    @PostMapping("/showPackage")
+    public String getPackage(Model model){
+        return "packagetable";
+    }
+
+    @GetMapping("/addPackage")
+    public String addPackagePage(Model model){
+
+        return ""
+    }
 
 
 

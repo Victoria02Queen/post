@@ -64,6 +64,15 @@ public class PackageDao {
         jdbcTemplate.update(sql, name, address);
     }
 
+    public void removePostOffice(int id){
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+        String sql = "DELETE FROM postoffice WHERE id = ?";
+        log.debug("addCustomer = {} ", sql);
+
+        jdbcTemplate.update(sql, id);
+    }
+
     public void addCustomer(String name, String phone, String address, String password){
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
