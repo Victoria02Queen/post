@@ -5,7 +5,41 @@
     <title>Title</title>
     <link rel="stylesheet" href="customertab.css">
 
+    <style type="text/css">
+   .button {
+    display: inline-block;
+    background: #179c17;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 3px;
+    text-decoration: none;
+    font-family: Tahoma;
+    font-size: 18px;
+    line-height: 1;
+    font-weight: 100;
+    cursor: pointer;
+}
+.cs {
+    display: inline-block;
+    background: red;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 3px;
+    text-decoration: none;
+    font-family: Tahoma;
+    font-size: 18px;
+    line-height: 1;
+    font-weight: 100;
+    cursor: pointer;
+}
 
+div {
+    margin: 24px;
+    text-align: left;
+}
+  </style>
 </head>
 <body>
 <h3>Таблица получателей</h3>
@@ -15,7 +49,7 @@
 </form>
 
 <form method="get" th:action="@{deleteCustomer}">
-    <button type="submit" class="button cl">удалить</button>
+    <button type="submit" class="button cs">удалить</button>
 </form>
 
 
